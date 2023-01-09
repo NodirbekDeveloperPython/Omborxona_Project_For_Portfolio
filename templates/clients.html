@@ -147,7 +147,11 @@
                             <td>{{mijoz.nom}}</td>
                             <td>+99{{mijoz.tel}}</td>
                             <td>{{mijoz.manzil}}</td>
-                            <td><a href="#"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                            {% if request.user.is_staff %}
+                            <td><a href="/bolimlar/client_edit/{{mijoz.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                            <td><a href="/bolimlar/client_ochir/{{mijoz.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">O'chirish</button></a></td>
+                            {% else %}
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -167,7 +171,7 @@
           </div>
     
           <!-- Modal body -->
-          <form action="#" id="new-product-form" >
+          <form action="/bolimlar/clientlar/" method="post" id="new-product-form"> {% csrf_token %}
             <div class="modal-body">
               <label for="new-product-name">FIO:</label>
               <input type="text" name="client_name" placeholder="Mijoz to'liq ismi..." id="new-product-name" class="form-control" required>

@@ -149,9 +149,13 @@
                             <td>{{mahsulot.nom}}</td>
                             <td>{{mahsulot.brend}}</td>
                             <td>{{mahsulot.narx}} so'm</td>
-                            <td>{{mahsulot.miqdor}}</td>
+                            <td>{{mahsulot.miqdor}} {{mahsulot.olchov}} </td>
+                            <td>{{mahsulot.kelgan_sana}}</td>
                             <td><a href="/bolimlar/mahsulot_edit/{{mahsulot.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                           {% if request.user.is_staff %}
                             <td><a href="/bolimlar/mahsulot_ochir/{{mahsulot.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">O'chirish</button></a></td>
+                           {% else %}
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -172,7 +176,7 @@
           </div>
     
           <!-- Modal body -->
-          <form action="#" id="new-product-form" >
+          <form action="/bolimlar/mahsulotlar/" method="post" id="new-product-form"> {% csrf_token %}
             <div class="modal-body">
               <label for="new-product-name">Nomi:</label>
               <input type="text" name="pr_name" placeholder="Mahsulot nomi..." id="new-product-name" class="form-control" required>
@@ -185,6 +189,10 @@
               <br>
               <label for="new-product-name">Miqdori:</label>
               <input type="number" name="pr_amount" placeholder="Mahsulot miqdori..." id="new-product-amount" class="form-control" required>
+              <br>
+              <br>
+              <label for="new-product-name">Olchov:</label>
+              <input type="text" name="pr_olchov" placeholder="Mahsulot o'lchovi..." id="new-product-olchov" class="form-control" required>
               <br>
             </div>
     
