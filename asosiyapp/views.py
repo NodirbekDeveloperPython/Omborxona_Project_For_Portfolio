@@ -16,8 +16,14 @@ class BolimlarView(View):
 class MahsulotView(View):
     def get(self,request):
         if request.user.is_authenticated:
+            soz = request.GET.get("soz")
+            if soz is None:
+                mahsulotlar = Mahsulot.objects.filter(sotuvchi__user=request.user)
+            else:
+                mahsulotlar = Mahsulot.objects.filter(sotuvchi__user=request.user, sotuvchi__ism__contains=soz)|Mahsulot.objects.filter(
+                    sotuvchi__user=request.user, nom__contains=soz)|Mahsulot.objects.filter(sotuvchi__user=request.user, nom__contains=soz)
             data = {
-                'mahsulotlar': Mahsulot.objects.filter(sotuvchi__user=request.user)
+                'mahsulotlar': mahsulotlar
             }
             return render(request, 'products.html',data)
         else:
@@ -38,6 +44,30 @@ class MahsulotView(View):
         else:
             return redirect("/")
 
+class MahsulotEditView(View):
+    def get(self, request, pk):
+        if request.user.is_authenticated:
+            data = {
+                'product': Mahsulot.objects.get(id=pk)
+            }
+            return render(request, 'product_update.html',data)
+        else:
+            return redirect("/")
+
+    def post(self,request,pk):
+        if request.user.is_authenticated:
+            sotuvchi = Sotuvchi.objects.get(user=request.user)
+            mahsulot = Mahsulot.objects.get(id=pk)
+            if mahsulot.sotuvchi == sotuvchi and request.user.is_staff:
+                Mahsulot.objects.filter(id=pk).update(
+                    nom = request.POST.get("pr_name"),
+                    brend = request.POST.get("pr_brand"),
+                    miqdor = request.POST.get("pr_amount"),
+                    narx = request.POST.get("pr_price"),
+                )
+            return redirect("/bolimlar/mahsulotlar/")
+        else:
+            return redirect("/")
 def MahsulotOchir(request, pk):
     if request.user.is_authenticated:
         sotuvchi = Sotuvchi.objects.get(user=request.user)
@@ -51,9 +81,15 @@ def MahsulotOchir(request, pk):
 class MijozlarView(View):
     def get(self,request):
         if request.user.is_authenticated:
+            soz = request.GET.get("soz")
+            if soz is None:
+                mijozlar = Mijoz.objects.filter(sotuvchi__user=request.user)
+            else:
+                mijozlar = Mijoz.objects.filter(sotuvchi__user=request.user, ism__contains=soz)|Mijoz.objects.filter(
+                sotuvchi__user=request.user, nom__contains=soz)|Mijoz.objects.filter(sotuvchi__user=request.user, manzil__contains=soz)
             data = {
                 # 'mijozlar': Mijoz.objects.all()
-                'mijozlar': Mijoz.objects.filter(sotuvchi__user=request.user)
+                'mijozlar': mijozlar
             }
             return render(request, 'clients.html', data)
         else:

@@ -78,7 +78,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-header">Menu</li>
           <li class="nav-item">
-            <a href="/bolimlar/stats/" class="nav-link">
+            <a href="/stats/" class="nav-link">
               <i class="nav-icon far fa-circle text-warning"></i>
               <p>Statistics</p>
             </a>
@@ -128,6 +128,14 @@
             <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
                   <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Maxsulot qo'shish</button>
+
+
+                    <form action="/bolimlar/mahsulotlar/" method="get">
+                        <input name="soz" type="text">
+                        <button type="submit">Qidirish</button>
+                    </form>
+
+
                 </div>
             </div>
             <div class="card-body">
@@ -151,8 +159,8 @@
                             <td>{{mahsulot.narx}} so'm</td>
                             <td>{{mahsulot.miqdor}} {{mahsulot.olchov}} </td>
                             <td>{{mahsulot.kelgan_sana}}</td>
-                            <td><a href="/bolimlar/mahsulot_edit/{{mahsulot.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
                            {% if request.user.is_staff %}
+                            <td><a href="/bolimlar/mahsulot_edit/{{mahsulot.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
                             <td><a href="/bolimlar/mahsulot_ochir/{{mahsulot.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">O'chirish</button></a></td>
                            {% else %}
                             {% endif %}

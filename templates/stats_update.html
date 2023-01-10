@@ -4,7 +4,7 @@
     {% load static %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Products</title>
+  <title>Stats Update</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -38,12 +38,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Products</h1>
+            <h1 class="m-0">Statistics</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/bolimlar/">Home</a></li>
-              <li class="breadcrumb-item active"><a href="/bolimlar/mahsulotlar/">Products</a></li>
+              <li class="breadcrumb-item active"><a href="/stats/">stats</a></li>
               <li class="breadcrumb-item"><a href="{% url 'logout' %}">Logout</a></li>
             </ol>
           </div><!-- /.col -->
@@ -56,24 +56,46 @@
           <!-- Modal Header -->
 
           <!-- Modal body -->
-          <form action="/bolimlar/mahsulot_edit/{{product.id}}/" method="post" id="edit-product-form"> {% csrf_token %}
-              <label for="edit-product-name">Mahsulot nomi:</label>
-              <input type="text" name="pr_name" value="{{product.nom}}" placeholder="Mahsulot nomi..." id="edit-product-name" class="form-control" required>
+          <form action="/stats/stats_edit/{{stats.id}}/" method="post" id="edit-product-form"> {% csrf_token %}
+              <label for="edit-stats-name">Mahsulot nomi:</label>
+              <select name="mahsulot" id="edit-stats-name">
+                  <option type="text" name="stats_name" value="{{stats.mahsulot.id}}" class="form-control" required>{{stats.mahsulot.nom}}</option>
+                  {% for mahsulot in mahsulotlar %}
+                  <option value="{{mahsulot.id}}">{{mahsulot.nom}}</option>
+                  {% endfor %}
+              </select>
                 <br>
-              <label for="edit-product-name">Brend nomi:</label>
-              <input type="text" name="pr_brand" value="{{product.brend}}" placeholder="Brend nomi..." id="edit-product-brend" class="form-control" required>
+                <br>
+
+              <label for="mijoz">Mijoz ismi:</label>
+              <select name="mijoz" id="mijoz">
+                    <option type="text" name="stats_name" value="{{stats.mijoz.id}}" class="form-control" required>{{stats.mijoz.ism}}</option>
+                  {% for mijoz in mijozlar %}
+                    <option value="{{mijoz.id}}">{{mijoz.ism}}</option>
+                  {% endfor %}
+              </select>
+                <br>
+                <br>
+              <label for="miqdor">Stats miqdori:</label>
+              <input type="number" name="miqdor" value="{{stats.miqdor}}" placeholder="Mahsulot miqdori..." id="miqdor" class="form-control" required>
               <br>
-              <label for="edit-product-name">Mahsulot narxi:</label>
-              <input type="number" name="pr_price" value="{{product.narx}}" placeholder="Mahsulot narxi..." id="edit-product-price" class="form-control" required>
               <br>
-              <label for="edit-product-name">Dona qoldi:</label>
-              <input type="number" name="pr_amount" value="{{product.miqdor}}" placeholder="Dona qoldi..." id="edit-product-amount" class="form-control" required>
+              <label for="jami">Mahsulot jami:</label>
+              <input type="number" name="jami" value="{{stats.jami}}" placeholder="Mahsulot narxi jami..." id="jami" class="form-control" required>
+              <br>
+              <br>
+              <label for="tolandi">Mahsulot tolandi:</label>
+              <input type="number" name="tolandi" value="{{stats.tolandi}}" placeholder="Mahsulot narxi to'langani..." id="tolandi" class="form-control" required>
+              <br>
+              <label for="nasiya">Mahsulot nasiyasi:</label>
+              <input type="number" name="nasiya" value="{{stats.nasya}}" placeholder="Mahsulot nasiyasi..." id="nasiya" class="form-control" required>
               <br>
 
           <!-- Modal footer -->
             <button type="submit" class="btn btn-success">Yangilash</button>
-            <a href="/bolimlar/mahsulotlar/"><button type="button" class="btn btn-danger" data-dismiss="modal">Yopish</button></a>
-
+            <a href="/stats/"><button type="button" class="btn btn-danger" data-dismiss="modal">Yopish</button></a>
+              <br>
+              <br>
       </form>
 
 
